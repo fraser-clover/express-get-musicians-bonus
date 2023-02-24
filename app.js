@@ -62,11 +62,18 @@ app.put('/musicians/:id', async (req, res) => {
 // The Band Model has an association with many musicians
 // 1. Respond with the Bands including the Musicians in that band.
 
+app.get("/bands", async (request, response) => {
+    let bands = await Band.findAll({include: Musician})
+	response.json(bands)
+  });
 
 //TODO: Make a GET Request to the Band Model at a particular ID
 // The Band Model has an association with many musicians 
 // 1. Respond with the paricular band including the musician in that particular band
-
+app.get("/bands/:id", async (request, response) => {
+	let band = await Band.findByPk(req.params.id)
+	response.json(band)
+  });
 
 app.listen(port, async () => {
 	await seed()
